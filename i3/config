@@ -1,19 +1,30 @@
 #################
 # startup apps and configs:
 #################
+
 exec --no-startup-id nitrogen --restore
 exec --no-startup-id picom --experimental-backend
 exec --no-startup-id sleep 1 && firefox
 exec bash ~/.config/polybar/launch.sh --colorblocks
 exec xinput set-prop "FocalTechPS/2 FocalTech Touchpad" "libinput Tapping Enabled" 1
 exec setxkbmap -model pc104 -layout us,ir -variant ,, -option grp:alt_shift_toggle
+exec --no-startup-id dex --autostart --environment i3
+exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
+exec --no-startup-id nm-applet
+
+#################
+# startup apps and configs:
+#################
 
 
 # set the mod key
 set $mod Mod4
 
 # border
-new_window pixel 0
+new_window pixel 2
+
+# colors
+client.focused   #e52d71 #e52d71 #e52d71 #e52d71 #e52d71
 
 # gaps
 gaps inner 10
@@ -22,24 +33,12 @@ gaps outer 0
 # font
 font pango:JetBrains Mono NL Regular 10
 
-# *****(&98&9879*&
-#for_window [class="^.*"] border pixel 0 floating enable
-for_window [title="File Operation Progress"] floating enable
-
 # drag floating windows with Mouse+$mod
-floating_modifier $mod 
+floating_modifier $mod
 
-# Start XDG autostart .desktop files using dex. See also
-# https://wiki.archlinux.org/index.php/XDG_Autostart
-exec --no-startup-id dex --autostart --environment i3
-
-# xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
-# screen before suspend. Use loginctl lock-session to lock your screen.
-exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
-
-# NetworkManager is the most popular way to manage wireless networks on Linux,
-# and nm-applet is a desktop environment-independent system tray GUI for it.
-exec --no-startup-id nm-applet
+#################
+# bindings:
+#################
 
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
@@ -53,6 +52,9 @@ bindsym $mod+Return exec i3-sensible-terminal
 
 # kill focused window
 bindsym $mod+Shift+q kill
+
+# run rofi
+bindsym $mod+d exec rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/colorblocks/scripts/rofi/launcher.rasi
 
 # change focus
 bindsym $mod+j focus down
@@ -101,8 +103,6 @@ bindsym $mod+space focus mode_toggle
 # focus the parent container
 bindsym $mod+a focus parent
 
-# Define names for default workspaces for which we configure key bindings later on.
-# We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
 set $ws2 "2"
 set $ws3 "3"
@@ -138,16 +138,11 @@ bindsym $mod+Shift+8 move container to workspace number $ws8
 bindsym $mod+Shift+9 move container to workspace number $ws9
 bindsym $mod+Shift+0 move container to workspace number $ws10
 
-assign [class="Firefox"]   $ws1
-assign [class="Code"]      $ws2
-
-for_window [class=Code]      focus
+# exit i3
+bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' - i3 restartB 'Yes, exit i3' 'i3-msg exit'"
 
 # restart i3
 bindsym $mod+Shift+r restart
-
-# exit i3
-bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -B 'Yes, exit i3' 'i3-msg exit'"
 
 # resize window
 mode "resize" {
@@ -169,3 +164,13 @@ mode "resize" {
 }
 
 bindsym $mod+r mode "resize"
+
+#################
+# bindings:
+#################
+
+assign [class="Firefox"]   $ws1
+assign [class="Code"]      $ws2
+
+for_window [class=Code]      focus
+
