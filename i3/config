@@ -7,15 +7,11 @@ exec --no-startup-id picom --experimental-backend
 exec --no-startup-id sleep 1 && firefox
 exec bash ~/.config/polybar/launch.sh --colorblocks
 exec xinput set-prop "FocalTechPS/2 FocalTech Touchpad" "libinput Tapping Enabled" 1
-exec setxkbmap -model pc104 -layout us,ir -variant ,, -option grp:alt_shift_toggle
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
 
 #################
-# startup apps and configs:
-#################
-
 
 # set the mod key
 set $mod Mod4
@@ -24,7 +20,11 @@ set $mod Mod4
 new_window pixel 2
 
 # colors
-client.focused   #e52d71 #e52d71 #e52d71 #e52d71 #e52d71
+
+#e52d71 #e52d71 #e52d71 #e52d71 #e52d71   -> pink
+#185e3a #185e3a #185e3a #185e3a #185e3a   -> green
+
+client.focused  #185e3a #185e3a #185e3a #185e3a #185e3a 
 
 # gaps
 gaps inner 10
@@ -40,6 +40,9 @@ floating_modifier $mod
 # bindings:
 #################
 
+# Lock screen
+bindsym exec $mod+CTR+l i3lock
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
@@ -48,7 +51,7 @@ bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ to
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
 
 # start a terminal
-bindsym $mod+Return exec i3-sensible-terminal
+bindsym $mod+Return exec alacritty 
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -165,12 +168,14 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-#################
-# bindings:
-#################
+# screen brithness
+#increase brithness
+bindsym XF86MonBrightnessUp exec --no-startup-id light -A 15
+#decrease brithness
+bindsym XF86MonBrightnessDown exec --no-startup-id light -U 15
 
-assign [class="Firefox"]   $ws1
-assign [class="Code"]      $ws2
+#################
 
 for_window [class=Code]      focus
 
+exec setxkbmap -model pc104 -layout us,ir -variant ,, -option grp:alt_shift_toggle
