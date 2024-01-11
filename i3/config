@@ -1,13 +1,13 @@
 #################
-# startup apps and configs:
+# startup apps:
 #################
 
 exec --no-startup-id nitrogen --restore
-exec --no-startup-id picom --experimental-backend
+# exec --no-startup-id picom --experimental-backend
 exec --no-startup-id sleep 1 && firefox
 exec bash ~/.config/polybar/launch.sh --colorblocks
 exec xinput set-prop "FocalTechPS/2 FocalTech Touchpad" "libinput Tapping Enabled" 1
-exec setxkbmap -model pc104 -layout us,ir -variant ,, -option grp:alt_shift_toggle
+exec sleep 4 && setxkbmap -model pc104 -layout us,ir -variant ,, -option grp:alt_shift_toggle
 exec --no-startup-id dex --autostart --environment i3
 exec --no-startup-id xss-lock --transfer-sleep-lock -- i3lock --nofork
 exec --no-startup-id nm-applet
@@ -58,7 +58,7 @@ bindsym $mod+Return exec alacritty
 bindsym $mod+Shift+q kill
 
 # run rofi
-bindsym $mod+d exec rofi -no-config -no-lazy-grab -show drun -modi drun -theme ~/.config/polybar/colorblocks/scripts/rofi/launcher.rasi
+bindsym $mod+d exec dmenu_run
 
 # change focus
 bindsym $mod+j focus down
@@ -79,8 +79,7 @@ bindsym $mod+Shift+l move right
 bindsym $mod+Shift+h move left
 
 # alternatively, you can use the cursor keys:
-bindsym $mod+Shift+Left move left
-bindsym $mod+Shift+Down move down
+bindsym $mod+Shift+Left move left bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
@@ -176,5 +175,10 @@ bindsym XF86MonBrightnessUp exec --no-startup-id light -A 15
 bindsym XF86MonBrightnessDown exec --no-startup-id light -U 15
 
 #################
+
+bar {
+	status_command i3status
+	position top
+}
 
 for_window [class=Code]      focus
