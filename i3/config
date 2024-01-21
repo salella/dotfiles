@@ -3,9 +3,7 @@
 #################
 
 exec --no-startup-id nitrogen --restore
-# exec --no-startup-id picom --experimental-backend
 exec --no-startup-id sleep 1 && firefox
-exec bash ~/.config/polybar/launch.sh --colorblocks
 exec xinput set-prop "FocalTechPS/2 FocalTech Touchpad" "libinput Tapping Enabled" 1
 exec sleep 4 && setxkbmap -model pc104 -layout us,ir -variant ,, -option grp:alt_shift_toggle
 exec --no-startup-id dex --autostart --environment i3
@@ -25,7 +23,7 @@ new_window pixel 2
 #e52d71 #e52d71 #e52d71 #e52d71 #e52d71   -> pink
 #185e3a #185e3a #185e3a #185e3a #185e3a   -> green
 
-client.focused  #185e3a #185e3a #185e3a #185e3a #185e3a 
+# client.focused  #185e3a #185e3a #185e3a #185e3a #185e3a 
 
 # gaps
 gaps inner 10
@@ -168,12 +166,6 @@ mode "resize" {
 
 bindsym $mod+r mode "resize"
 
-# screen brithness
-#increase brithness
-bindsym XF86MonBrightnessUp exec --no-startup-id light -A 15
-#decrease brithness
-bindsym XF86MonBrightnessDown exec --no-startup-id light -U 15
-
 #################
 
 bar {
@@ -181,4 +173,3 @@ bar {
 	position top
 }
 
-for_window [class=Code]      focus
